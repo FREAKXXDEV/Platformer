@@ -24,10 +24,14 @@ bool Collider::onCollision(Collider other) {
 			return false;
 		}
 
-		if (deltaY < 0.0f) rect.move(0.0f, -overlapY + 0.5f);
-		else rect.move(0.0f, overlapY - 0.5f);
-		return true;
+		if (deltaY < 0.0f) {
+			rect.move(0.0f, -overlapY + 0.5f);
+			return false;
+		}
+		else {
+			rect.move(0.0f, overlapY - 0.5f);
+			return true;
+		}
 	}
-
 	return false;
 }
