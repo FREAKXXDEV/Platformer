@@ -3,6 +3,8 @@
 #include <iostream>
 #include <settings.h>
 #include <tile.h>
+#include <player.h>
+#include <collider.h>
 
 class Game {
 public:
@@ -14,10 +16,14 @@ private:
 	void update(sf::Time time);
 	void render();
 	void setupLevel();
+	void checkCollisions();
 
 private:
 	sf::RenderWindow window;
 	sf::View view;
 	
 	std::vector<Tile*> tiles;
+	Player *player;
+
+	sf::Texture playerTexture;
 };

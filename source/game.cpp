@@ -2,8 +2,10 @@
 
 Game::Game()
 	: window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Platformer", sf::Style::Close) 
-	, view(sf::Vector2f(), sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT)) {
+	, view(sf::Vector2f(), sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT)) 
+	, player(new Player(TILE_SIZE)) {
 
+	playerTexture.loadFromFile("graphics/player.png");
 	setupLevel();
 }
 
@@ -42,9 +44,10 @@ void Game::processEvents() {
 void Game::update(sf::Time time) {
 	float deltaTime = time.asSeconds();
 
-	// TODO: Update Game Objects
+	player->update(deltaTime);
+	checkCollisions();
 
-	view.setCenter(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
+	view.setCenter(player->getPosition());
 	window.setView(view);
 }
 
@@ -53,6 +56,7 @@ void Game::render() {
 
 	for (auto it = tiles.begin(); it != tiles.end(); ++it)
 		(*it)->draw(window);
+	player->draw(window);
 	window.display();
 }
 
@@ -67,6 +71,20 @@ void Game::setupLevel() {
 				tile->setPosition(x, y);
 				tiles.push_back(tile);
 			}
+			if (map[i][j] == 'P') {
+				Player *player = new Player(TILE_SIZE);
+				player->setPosition(x, y);
+				player->setTexture(playerTexture);
+				this->player = player;
+			}
 		}
+	}
+}
+
+void Game::checkCollisions() {
+	for (auto it = tiles.begin(); it != tiles.end(); ++it) {
+		Collider playerCollider = player->getCollider();
+		Collider tileCollider = (*it)->getCollider();
+		playerCollider.onCollision(tileCollider);
 	}
 }
