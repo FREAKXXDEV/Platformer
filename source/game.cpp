@@ -85,6 +85,7 @@ void Game::checkCollisions() {
 	for (auto it = tiles.begin(); it != tiles.end(); ++it) {
 		Collider playerCollider = player->getCollider();
 		Collider tileCollider = (*it)->getCollider();
-		playerCollider.onCollision(tileCollider);
+		if (playerCollider.onCollision(tileCollider))
+			player->resetFallingTime();
 	}
 }

@@ -3,7 +3,9 @@
 Player::Player(const float SIZE)
 	: Tile(SIZE)
 	, direction()
-	, SPEED(300.f) {
+	, SPEED(300.f) 
+	, GRAVITY(980.f) 
+	, fallingTime(0.f) {
 
 	rect.setSize(sf::Vector2f(64, 48));
 }
@@ -11,6 +13,8 @@ Player::Player(const float SIZE)
 void Player::update(float deltaTime) {
 	getInput();
 	move(deltaTime);
+
+	std::cout << fallingTime << '\n';
 }
 
 void Player::getInput() {
@@ -28,7 +32,13 @@ void Player::getInput() {
 }
 
 void Player::move(float deltaTime) {
+	fallingTime += deltaTime;
+
 	sf::Vector2f velocity(direction * SPEED * deltaTime);
+	velocity.y += GRAVITY * fallingTime * deltaTime;
+	if (velocity.y > GRAVITY)
+		velocity.y = GRAVITY;
+
 	rect.move(velocity);
 }
 

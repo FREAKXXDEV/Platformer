@@ -4,7 +4,7 @@
 class Collider {
 public:
 	Collider(sf::RectangleShape &rect);
-	void onCollision(Collider other);
+	bool onCollision(Collider other);
 
 private:
 	sf::RectangleShape &rect;
