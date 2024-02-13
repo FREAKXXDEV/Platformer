@@ -51,10 +51,22 @@ void Game::update(sf::Time time) {
 void Game::render() {
 	window.clear();
 
-	//TODO: Render Game Objects	
+	for (auto it = tiles.begin(); it != tiles.end(); ++it)
+		(*it)->draw(window);
 	window.display();
 }
 
 void Game::setupLevel() {
-	// TODO
+	for (size_t i = 0; i < map.size(); ++i) {
+		for (size_t j = 0; j < map[i].size(); ++j) {
+			float x = (float)j * TILE_SIZE;
+			float y = (float)i * TILE_SIZE;
+
+			if (map[i][j] == 'X') {
+				Tile *tile = new Tile(TILE_SIZE);
+				tile->setPosition(x, y);
+				tiles.push_back(tile);
+			}
+		}
+	}
 }

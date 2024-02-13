@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <settings.h>
+#include <tile.h>
 
 class Game {
 public:
@@ -17,4 +18,6 @@ private:
 private:
 	sf::RenderWindow window;
 	sf::View view;
+	
+	std::vector<Tile*> tiles;
 };
